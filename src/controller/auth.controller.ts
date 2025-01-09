@@ -3,6 +3,7 @@ import { authRequestDto, authResponseDto } from "../dto/auth.dto";
 import { User } from "../models/user.model";
 import { hashPassword, validatePassword } from "../helper/password.helper";
 import { generateJWT } from "../helper/jwt.helper";
+import { ROLE_CONFIG } from "../config/role.config";
 
 export const login = async (
   req: Request<{}, {}, authRequestDto>,
@@ -49,11 +50,11 @@ export const register = async (
     res.end();
     return;
   }
-
+  // register new user
   const user = new User({ email, name });
   const hashedPass = await hashPassword(password);
   user.password = hashedPass;
-  user.role = "2201";
+  user.role = ROLE_CONFIG.CAMPAIGN_MANAGER;
   user.save();
 
   res.status(201).send({ message: "user registry successfull" });
