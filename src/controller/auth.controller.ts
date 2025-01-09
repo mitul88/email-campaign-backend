@@ -1,12 +1,12 @@
 import { Request, Response } from "express-serve-static-core";
-import { loginRequestDto, loginResponseDto } from "../dto/login.dto";
+import { authRequestDto, authResponseDto } from "../dto/auth.dto";
 import { User } from "../models/user.model";
-import { validatePassword } from "../helper/password.helper";
+import { hashPassword, validatePassword } from "../helper/password.helper";
 import { generateJWT } from "../helper/jwt.helper";
 
 export const login = async (
-  req: Request<{}, {}, loginRequestDto>,
-  res: Response<loginResponseDto>
+  req: Request<{}, {}, authRequestDto>,
+  res: Response<authResponseDto>
 ) => {
   const { email, password } = req.body;
   try {
@@ -35,4 +35,28 @@ export const login = async (
     res.end();
     return;
   }
+};
+
+export const register = async (
+  req: Request<{}, {}, authRequestDto>,
+  res: Response<authResponseDto>
+) => {
+  const { name, email, password } = req.body;
+  const userExist = await User.findOne({ email });
+
+  if (userExist) {
+    res.status(400).send({ message: "Email already registered" });
+    res.end();
+    return;
+  }
+
+  const user = new User({ email, name });
+  const hashedPass = await hashPassword(password);
+  user.password = hashedPass;
+  user.role = "2201";
+  user.save();
+
+  res.status(201).send({ message: "user registry successfull" });
+  res.end();
+  return;
 };
