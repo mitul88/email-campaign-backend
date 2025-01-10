@@ -1,15 +1,20 @@
-import { Request, Response, NextFunction } from "express-serve-static-core";
+import {
+  Response,
+  NextFunction,
+  UserDataRequest,
+} from "express-serve-static-core";
 import { jwtVerify } from "../helper/jwt.helper";
-import { JwtPayload } from "jsonwebtoken";
+import { userDataPayload } from "jsonwebtoken";
+import { ROLE_CONFIG } from "../config/role.config";
 
 declare module "express-serve-static-core" {
-  interface Request {
-    user: string | JwtPayload;
+  interface UserDataRequest extends Request {
+    user: userDataPayload;
   }
 }
 
 export const authCheck = async (
-  req: Request,
+  req: UserDataRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -25,5 +30,16 @@ export const authCheck = async (
   if (!decodedToken) return res.status(401).send({ message: "invalid token" });
 
   req.user = decodedToken;
+  next();
+};
+
+export const checkAdmin = async (
+  req: UserDataRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user.role !== ROLE_CONFIG.ADMIN) {
+    return res.status(403).send("request forbidden");
+  }
   next();
 };
