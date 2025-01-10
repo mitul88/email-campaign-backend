@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { ENV_CONFIG } from "../config/env.config";
-import { IUser } from "../types/user_data_types";
+import { IUser } from "../types/user_data_type";
 
 export const generateJWT = function (userData: IUser): string {
   const token = jwt.sign(

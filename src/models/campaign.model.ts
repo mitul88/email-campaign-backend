@@ -1,11 +1,5 @@
 import { Schema, model, Types } from "mongoose";
-
-interface ICampaign {
-  name: string;
-  message: string;
-  recipients: string[];
-  scheduleTime: Date;
-}
+import { ICampaign } from "../types/campaign_data_type";
 
 const campaignSchema = new Schema<ICampaign>(
   {
