@@ -16,3 +16,7 @@ export const generateJWT = function (userData: IUser): string {
 
   return token;
 };
+
+export const jwtVerify = (token: string) => {
+  return jwt.verify(token, ENV_CONFIG.JWT_SECRET);
+};
