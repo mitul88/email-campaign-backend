@@ -11,7 +11,7 @@ declare module "jsonwebtoken" {
   }
 }
 
-export const generateJWT = function (userData: IUser): string {
+export const generateJWT = function (userData: IUser) {
   const token = jwt.sign(
     {
       _id: userData["id"],

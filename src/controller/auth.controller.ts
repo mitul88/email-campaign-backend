@@ -23,7 +23,7 @@ export const login = async (
     const validUser = validatePassword(password, user.password);
     if (!validUser) {
       res.status(401).send({ message: "incorrect password" });
-      res.send();
+      res.end();
       return;
     }
     // send token if password match successful

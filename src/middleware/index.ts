@@ -1,7 +1,7 @@
-import { Express } from "express";
+import { Application } from "express";
 import express from "express";
 
-export = (app: Express) => {
+export = (app: Application) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 };
