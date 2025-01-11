@@ -2,6 +2,15 @@ import { Campaign } from "../models/campaign.model";
 import { CampaignStatus, ICampaign } from "../types/campaign_data_type";
 
 export class CampaignService {
+  static async createCampaign(campaignData: ICampaign): Promise<ICampaign> {
+    try {
+      const campaign = await Campaign.create(campaignData);
+      return campaign;
+    } catch (error) {
+      console.error("error occured", error);
+      throw new Error("campaign creation failed");
+    }
+  }
   static async getPendingCampaigns(): Promise<ICampaign[]> {
     try {
       const now = new Date();
