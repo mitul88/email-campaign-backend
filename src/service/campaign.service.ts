@@ -6,7 +6,7 @@ export class CampaignService {
   static async createCampaign(campaignData: ICampaign): Promise<ICampaign> {
     try {
       const campaign = new Campaign(campaignData);
-      campaign.save();
+      await campaign.save();
       return campaign;
     } catch (error) {
       console.error("error occured", error);
