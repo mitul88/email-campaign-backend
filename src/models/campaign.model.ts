@@ -7,7 +7,11 @@ const campaignSchema = new Schema<ICampaign>(
     message: { type: String, required: true },
     recipients: { type: [String], required: true },
     type: { type: String, required: true },
-    status: String,
+    status: {
+      type: String,
+      enum: ["pending", "scheduled", "sent", "open", "failed"],
+      default: "pending",
+    },
     scheduleTime: Date,
   },
   { timestamps: true }
