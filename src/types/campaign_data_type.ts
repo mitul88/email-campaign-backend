@@ -8,8 +8,8 @@ export interface ICampaign {
 }
 
 export enum CampaignStatus {
-  sent,
-  pending,
-  failed,
-  opened,
+  PENDING = "pending",
+  SCHEDULED = "scheduled",
+  SENT = "sent",
+  FAILED = "failed",
 }

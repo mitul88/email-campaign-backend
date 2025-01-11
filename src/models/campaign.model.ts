@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 import { CampaignStatus, ICampaign } from "../types/campaign_data_type";
 
 const campaignSchema = new Schema<ICampaign>(
@@ -7,7 +7,7 @@ const campaignSchema = new Schema<ICampaign>(
     message: { type: String, required: true },
     recipients: { type: [String], required: true },
     type: { type: String, required: true },
-    status: { default: CampaignStatus.pending, enum: CampaignStatus },
+    status: { default: CampaignStatus.PENDING, enum: CampaignStatus },
     scheduleTime: Date,
   },
   { timestamps: true }
