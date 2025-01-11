@@ -19,7 +19,7 @@ export const generateJWT = function (userData: IUser) {
       name: userData["name"],
       role: userData["role"],
     },
-    ENV_CONFIG.JWT_SECRET,
+    ENV_CONFIG.JWT.SECRET_KEY,
     { expiresIn: "7d" }
   );
 
@@ -27,5 +27,5 @@ export const generateJWT = function (userData: IUser) {
 };
 
 export const jwtVerify = (token: string) => {
-  return <jwt.userDataPayload>jwt.verify(token, ENV_CONFIG.JWT_SECRET);
+  return <jwt.userDataPayload>jwt.verify(token, ENV_CONFIG.JWT.SECRET_KEY);
 };

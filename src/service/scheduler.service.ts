@@ -1,14 +1,18 @@
 import schedule from "node-schedule";
 import { CampaignService } from "./campaign.service";
-import { TaskProducer } from "../Producer/Producer";
 import { ENV_CONFIG } from "../config/env.config";
+import { sendToQueue } from "../producer/Producer";
 
 export class SchedulerService {
   static async schedulePendingCampaign() {
     const pendingCampaigns = await CampaignService.getPendingCampaigns();
     for (const campaign of pendingCampaigns) {
-      await TaskProducer.sendToQueue(ENV_CONFIG.RABBITMQ_EMAIL_TASK, campaign);
-      console.log(`Campaign queued`);
+      await sendToQueue(
+        ENV_CONFIG.RABBIT_MQ.QUEUE_NAME || "campaignQueue",
+        campaign
+      );
+      console.log(`Campaign with id of ${campaign._id}, queued`);
+      await CampaignService.changeCampaignStatus(campaign._id, "scheduled");
     }
   }
 

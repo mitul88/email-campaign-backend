@@ -1,10 +1,13 @@
+import { Types } from "mongoose";
 import { Campaign } from "../models/campaign.model";
-import { CampaignStatus, ICampaign } from "../types/campaign_data_type";
+import { ICampaign } from "../types/campaign_data_type";
 
 export class CampaignService {
   static async createCampaign(campaignData: ICampaign): Promise<ICampaign> {
     try {
-      const campaign = await Campaign.create(campaignData);
+      const campaign = new Campaign(campaignData);
+      campaign.status = "pending";
+      campaign.save();
       return campaign;
     } catch (error) {
       console.error("error occured", error);
@@ -17,9 +20,9 @@ export class CampaignService {
 
       const pendingCampaigns = await Campaign.find({
         $or: [
-          { status: CampaignStatus.PENDING },
+          { status: "pending" },
           {
-            status: CampaignStatus.SCHEDULED,
+            status: "scheduled",
             scheduleTime: { $lte: now },
           },
         ],
@@ -30,5 +33,9 @@ export class CampaignService {
       console.error("Error fetching pending campaigns:", error);
       throw new Error("Could not retrieve pending campaigns.");
     }
+  }
+
+  static async changeCampaignStatus(id: Types.ObjectId, status: string) {
+    await Campaign.findByIdAndUpdate(id, { status: status });
   }
 }

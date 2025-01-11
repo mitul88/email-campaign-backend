@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { ENV_CONFIG } from "../config/env.config";
 
-const db_local = ENV_CONFIG.MONGODB_LOCAL_URL;
+const db_local = ENV_CONFIG.MONOGO_DB.LOCAL_URL;
 
 export const dbConnection = () => {
   try {

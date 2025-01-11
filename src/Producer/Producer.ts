@@ -1,20 +1,10 @@
 import amqp from "amqplib";
 import { ENV_CONFIG } from "../config/env.config";
 
-export class TaskProducer {
-  static channel: amqp.Channel;
+export async function sendToQueue(queueName: string, message: any) {
+  const connection = await amqp.connect(ENV_CONFIG.RABBIT_MQ.LOCAL_URL);
+  const channel = await connection.createChannel();
 
-  static async createChannel() {
-    const connection = await amqp.connect(ENV_CONFIG.RABBITMQ_LOCAL_URL);
-    this.channel = await connection.createChannel();
-  }
-
-  static async sendToQueue(queueName: string, message: any) {
-    if (!this.channel) {
-      this.createChannel();
-    }
-
-    await this.channel.assertQueue(queueName);
-    this.channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)));
-  }
+  await channel.assertQueue(queueName);
+  channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)));
 }

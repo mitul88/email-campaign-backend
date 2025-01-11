@@ -1,4 +1,7 @@
+import { Types } from "mongoose";
+
 export interface ICampaign {
+  _id: Types.ObjectId;
   name: string;
   message: string;
   recipients: string[];

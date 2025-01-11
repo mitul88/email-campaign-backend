@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { CampaignStatus, ICampaign } from "../types/campaign_data_type";
+import { ICampaign } from "../types/campaign_data_type";
 
 const campaignSchema = new Schema<ICampaign>(
   {

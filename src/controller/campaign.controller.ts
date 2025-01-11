@@ -8,9 +8,11 @@ export const createCampaign = async (
   req: Request<{}, {}, createCampaignDto>,
   res: Response<campaignResponseDto>
 ) => {
-  const campaignData: ICampaign = req.body;
+  const campaignData = req.body;
   try {
-    const campaign = await CampaignService.createCampaign(campaignData);
+    const campaign = await CampaignService.createCampaign(
+      campaignData as ICampaign
+    );
     res.status(201).send({ message: "campaign initiated" });
     res.end();
     return;
