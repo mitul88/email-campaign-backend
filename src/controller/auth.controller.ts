@@ -20,7 +20,7 @@ export const login = async (
       return;
     }
     // verify user by password
-    const validUser = validatePassword(password, user.password);
+    const validUser = validatePassword(password.toString(), user.password);
     if (!validUser) {
       res.status(401).send({ message: "incorrect password" });
       res.end();
@@ -52,7 +52,7 @@ export const register = async (
   }
   // register new user
   const user = new User({ email, name });
-  const hashedPass = await hashPassword(password);
+  const hashedPass = await hashPassword(password.toString());
   user.password = hashedPass;
   user.role = ROLE_CONFIG.CAMPAIGN_MANAGER;
   user.save();

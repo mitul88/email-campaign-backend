@@ -20,9 +20,9 @@ export const authCheck = async (
 ) => {
   let token = req.header("authorization");
   if (!token) {
-    return res
-      .status(400)
-      .send({ message: "Access denied, no token provided!" });
+    res.status(400).send({ message: "Access denied, no token provided!" });
+    res.end();
+    return;
   }
 
   token = token.split(" ")[1].trim();
@@ -39,7 +39,9 @@ export const checkAdmin = async (
   next: NextFunction
 ) => {
   if (req.user.role !== ROLE_CONFIG.ADMIN) {
-    return res.status(403).send("request forbidden");
+    res.status(403).send("request forbidden");
+    res.end();
+    return;
   }
   next();
 };
