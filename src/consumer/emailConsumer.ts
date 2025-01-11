@@ -2,7 +2,7 @@ import amqp from "amqplib";
 import { ENV_CONFIG } from "../config/env.config";
 import { CampaignService } from "../service/campaign.service";
 
-const QUEUE_NAME = ENV_CONFIG.RABBIT_MQ.QUEUE_NAME;
+const QUEUE_NAME = ENV_CONFIG.RABBIT_MQ.CAMPAIGN_QUEUE_NAME;
 
 export async function emailConsumer() {
   try {

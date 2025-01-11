@@ -4,7 +4,8 @@ export interface IEnvConfig {
   };
   RABBIT_MQ: {
     LOCAL_URL: string;
-    QUEUE_NAME: string;
+    CAMPAIGN_QUEUE_NAME: string;
+    NOTIFICATION_QUEUE_NAME: string;
   };
   MONOGO_DB: {
     LOCAL_URL: string;

@@ -13,7 +13,9 @@ export const ENV_CONFIG: IEnvConfig = {
   },
   RABBIT_MQ: {
     LOCAL_URL: process.env.RABBITMQ_LOCAL_URL as string,
-    QUEUE_NAME: process.env.RABBITMQ_QUEUE_NAME as string,
+    CAMPAIGN_QUEUE_NAME: process.env.RABBITMQ_CAMPAIGN_QUEUE_NAME as string,
+    NOTIFICATION_QUEUE_NAME: process.env
+      .RABBITMQ_NOTIFICATION_QUEUE_NAME as string,
   },
   JWT: {
     SECRET_KEY: process.env.JWT_SECRET as string,

@@ -2,7 +2,7 @@ import { ENV_CONFIG } from "./config/env.config";
 import { app } from "./app";
 import { dbConnection } from "./db/connection";
 import { SchedulerService } from "./service/scheduler.service";
-import { emailConsumer } from "./consumer/consumer";
+import { emailConsumer } from "./consumer/emailConsumer";
 
 const port = ENV_CONFIG.SERVER.PORT;
 
