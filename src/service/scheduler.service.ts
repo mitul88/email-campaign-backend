@@ -14,6 +14,7 @@ export class SchedulerService {
 
   //   schedule queuing task for every minute
   static initializeScheduler() {
+    console.log("scheduler intiated");
     schedule.scheduleJob("* * * * *", this.schedulePendingCampaign);
   }
 }

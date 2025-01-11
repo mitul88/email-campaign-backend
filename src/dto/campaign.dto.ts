@@ -5,7 +5,7 @@ export interface createCampaignDto {
   message: string;
   recipients: string[];
   type: string;
-  status: CampaignStatus;
+  status: string;
   scheduleTime: Date;
 }
 

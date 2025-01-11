@@ -3,13 +3,13 @@ export interface ICampaign {
   message: string;
   recipients: string[];
   type: string;
-  status: CampaignStatus;
+  status: string;
   scheduleTime: Date;
 }
 
 export enum CampaignStatus {
-  PENDING = "pending",
-  SCHEDULED = "scheduled",
-  SENT = "sent",
-  FAILED = "failed",
+  PENDING,
+  SCHEDULED,
+  SENT,
+  FAILED,
 }
