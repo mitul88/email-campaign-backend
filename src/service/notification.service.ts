@@ -14,4 +14,9 @@ export class NotificationService {
       throw new Error("notification creation failed");
     }
   }
+
+  static async getNotifications(): Promise<INotification[]> {
+    const notifications = await Notification.find();
+    return notifications;
+  }
 }

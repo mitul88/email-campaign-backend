@@ -1,6 +1,5 @@
 node_modules
 .env
-src/websocket
 
 docker-composer.yml
 DockerFile

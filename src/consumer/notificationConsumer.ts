@@ -1,6 +1,7 @@
 import amqp from "amqplib";
 import { ENV_CONFIG } from "../config/env.config";
 import { NotificationService } from "../service/notification.service";
+import { sendRealTimeNotification } from "../websocket/notificationSocket";
 
 const QUEUE_NAME = ENV_CONFIG.RABBIT_MQ.NOTIFICATION_QUEUE_NAME;
 
@@ -10,8 +11,6 @@ export async function notificationConsumer() {
     const channel = await connection.createChannel();
     await channel.assertQueue(QUEUE_NAME, { durable: true });
 
-    console.log(`Waiting for notifications in ${QUEUE_NAME}...`);
-
     channel.consume(
       QUEUE_NAME,
       async (msg) => {
@@ -19,7 +18,9 @@ export async function notificationConsumer() {
           const notification = JSON.parse(msg.content.toString());
           console.log("Received notification:", notification);
           try {
-            await NotificationService.createNotification(notification);
+            const savedNotification =
+              await NotificationService.createNotification(notification);
+            sendRealTimeNotification(savedNotification.userId, notification);
             channel.ack(msg);
           } catch (error) {
             console.error("Error saving notification:", error);
