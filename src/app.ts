@@ -1,11 +1,11 @@
-import express, { Application } from "express";
+import express, { Express } from "express";
 import routes from "./routes/routes";
 import middleware from "./middleware";
 import { SchedulerService } from "./service/scheduler.service";
 import { campaignConsumer } from "./consumer/campaignConsumer";
 import { notificationConsumer } from "./consumer/notificationConsumer";
 
-export const app: Application = express();
+export const app: Express = express();
 
 // calling all third party middlewares
 middleware(app);
@@ -14,10 +14,10 @@ middleware(app);
 routes(app);
 
 // initialize cron jobs
-SchedulerService.initializeScheduler();
+// SchedulerService.initializeScheduler();
 
 // start consuming email task
-campaignConsumer();
+// campaignConsumer();
 
 // start consuming notification tasks
-notificationConsumer();
+// notificationConsumer();

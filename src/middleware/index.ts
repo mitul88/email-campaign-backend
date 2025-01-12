@@ -1,8 +1,10 @@
-import { Application, json, urlencoded } from "express";
+import { Express, json, urlencoded } from "express";
 import express from "express";
+import helmet from "helmet";
 
-export = (app: Application) => {
+export = (app: Express) => {
   app.use(json());
+  app.use(helmet());
   app.use(urlencoded());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

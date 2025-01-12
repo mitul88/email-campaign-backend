@@ -20,7 +20,10 @@ export const login = async (
       return;
     }
     // verify user by password
-    const validUser = validatePassword(password.toString(), user.password);
+    const validUser = await validatePassword(
+      password.toString(),
+      user.password
+    );
     if (!validUser) {
       res.status(401).send({ message: "incorrect password" });
       res.end();
