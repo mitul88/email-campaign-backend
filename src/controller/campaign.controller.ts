@@ -1,6 +1,5 @@
-import { Request, Response } from "express-serve-static-core";
+import { Request, Response } from "express";
 import { campaignResponseDto, createCampaignDto } from "../dto/campaign.dto";
-import { Campaign } from "../models/campaign.model";
 import { CampaignService } from "../service/campaign.service";
 import { ICampaign } from "../types/campaign_data_type";
 

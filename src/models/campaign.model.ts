@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { ICampaign } from "../types/campaign_data_type";
 
 const campaignSchema = new Schema<ICampaign>(
@@ -13,6 +13,7 @@ const campaignSchema = new Schema<ICampaign>(
       default: "pending",
     },
     scheduleTime: Date,
+    userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
   },
   { timestamps: true }
 );

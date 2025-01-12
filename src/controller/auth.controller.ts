@@ -1,4 +1,4 @@
-import { Request, Response } from "express-serve-static-core";
+import { Request, Response } from "express";
 import { authRequestDto, authResponseDto } from "../dto/auth.dto";
 import { User } from "../models/user.model";
 import { hashPassword, validatePassword } from "../helper/password.helper";

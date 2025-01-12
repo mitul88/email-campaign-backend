@@ -35,5 +35,5 @@ export async function emailConsumer() {
 }
 
 async function processCampaign(campaign: any) {
-  await CampaignService.changeCampaignStatus(campaign._id, "sent");
+  await CampaignService.updateCampaignStatus(campaign._id, "sent");
 }

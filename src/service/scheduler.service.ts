@@ -11,7 +11,7 @@ export class SchedulerService {
         ENV_CONFIG.RABBIT_MQ.CAMPAIGN_QUEUE_NAME || "campaignQueue",
         campaign
       );
-      await CampaignService.changeCampaignStatus(campaign._id, "scheduled");
+      await CampaignService.updateCampaignStatus(campaign._id, "scheduled");
     }
   }
 

@@ -8,6 +8,7 @@ export interface ICampaign extends Document {
   type: string;
   status: string;
   scheduleTime: Date;
+  userId: Types.ObjectId;
 }
 
 export enum CampaignStatus {

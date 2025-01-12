@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { Campaign } from "../models/campaign.model";
 import { ICampaign } from "../types/campaign_data_type";
+import { publishNotification } from "../producer/notificationProducer";
 
 export class CampaignService {
   static async createCampaign(campaignData: ICampaign): Promise<ICampaign> {
@@ -34,7 +35,33 @@ export class CampaignService {
     }
   }
 
-  static async changeCampaignStatus(id: Types.ObjectId, status: string) {
-    await Campaign.findByIdAndUpdate(id, { status: status });
+  static async updateCampaignStatus(id: Types.ObjectId, status: string) {
+    const campaign = await Campaign.findById(id);
+
+    if (!campaign) {
+      throw new Error("Campaign not found");
+    }
+    campaign.status = status;
+    await campaign.save();
+
+    let message: string;
+    switch (status) {
+      case "sent":
+        message = `Campaign "${campaign.name}" has been sent successfully.`;
+        break;
+      case "failed":
+        message = `Campaign "${campaign.name}" failed to send.`;
+        break;
+      case "opened":
+        message = `An email from campaign "${campaign.name}" was opened.`;
+        break;
+      default:
+        message = `Campaign "${campaign.name}" status updated to ${status}.`;
+    }
+
+    await publishNotification({
+      message,
+      type: `campaign_${status.toLowerCase()}`, // e.g., "campaign_sent"
+    });
   }
 }

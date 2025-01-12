@@ -1,23 +1,25 @@
-import {
-  Response,
-  NextFunction,
-  UserDataRequest,
-} from "express-serve-static-core";
+import { Request, Response, NextFunction } from "express";
 import { jwtVerify } from "../helper/jwt.helper";
-import { userDataPayload } from "jsonwebtoken";
 import { ROLE_CONFIG } from "../config/role.config";
 
-declare module "express-serve-static-core" {
-  interface UserDataRequest extends Request {
-    user: userDataPayload;
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: {
+        _id: string;
+        name: string;
+        email: string;
+        role: string;
+      };
+    }
   }
 }
 
 export const authCheck = async (
-  req: UserDataRequest,
+  req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<any> => {
   let token = req.header("authorization");
   if (!token) {
     res.status(400).send({ message: "Access denied, no token provided!" });
@@ -34,11 +36,11 @@ export const authCheck = async (
 };
 
 export const checkAdmin = async (
-  req: UserDataRequest,
+  req: Request,
   res: Response,
   next: NextFunction
-) => {
-  if (req.user.role !== ROLE_CONFIG.ADMIN) {
+): Promise<any> => {
+  if (req.user?.role !== ROLE_CONFIG.ADMIN) {
     res.status(403).send("request forbidden");
     res.end();
     return;
