@@ -1,12 +1,16 @@
-import { Types } from "mongoose";
+import { Schema } from "mongoose";
 import { Campaign } from "../models/campaign.model";
 import { ICampaign } from "../types/campaign_data_type";
 import { publishNotification } from "../producer/notificationProducer";
 
 export class CampaignService {
-  static async createCampaign(campaignData: ICampaign): Promise<ICampaign> {
+  static async createCampaign(
+    campaignData: ICampaign,
+    userId: string
+  ): Promise<ICampaign> {
     try {
       const campaign = new Campaign(campaignData);
+      campaign.userId = userId;
       await campaign.save();
       return campaign;
     } catch (error) {
@@ -35,7 +39,7 @@ export class CampaignService {
     }
   }
 
-  static async updateCampaignStatus(id: Types.ObjectId, status: string) {
+  static async updateCampaignStatus(id: Schema.Types.ObjectId, status: string) {
     const campaign = await Campaign.findById(id);
 
     if (!campaign) {
@@ -43,10 +47,14 @@ export class CampaignService {
     }
     campaign.status = status;
     await campaign.save();
+    const userId = campaign.userId;
 
     let message: string;
     switch (status) {
       case "sent":
+        message = `Campaign "${campaign.name}" has been sent successfully.`;
+        break;
+      case "scheduled":
         message = `Campaign "${campaign.name}" has been sent successfully.`;
         break;
       case "failed":
@@ -60,8 +68,10 @@ export class CampaignService {
     }
 
     await publishNotification({
+      userId,
       message,
-      type: `campaign_${status.toLowerCase()}`, // e.g., "campaign_sent"
+      status,
+      type: `campaign_${status.toLowerCase()}`,
     });
   }
 }

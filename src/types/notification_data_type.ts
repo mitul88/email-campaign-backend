@@ -5,5 +5,5 @@ export interface INotification extends Document {
   message: string;
   type: string;
   status: string;
-  createdAt: Date;
+  createdAt?: Date;
 }

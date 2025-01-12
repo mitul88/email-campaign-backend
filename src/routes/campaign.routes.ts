@@ -4,4 +4,4 @@ import { authCheck, checkAdmin } from "../middleware/auth.middleware";
 
 export const router = Router();
 
-router.route("/create").post([authCheck, checkAdmin], createCampaign);
+router.route("/create").post([authCheck], createCampaign);

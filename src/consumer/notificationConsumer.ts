@@ -16,11 +16,12 @@ export async function notificationConsumer() {
       async (msg) => {
         if (msg) {
           const notification = JSON.parse(msg.content.toString());
-          console.log("Received notification:", notification);
           try {
             const savedNotification =
               await NotificationService.createNotification(notification);
-            sendRealTimeNotification(savedNotification.userId, notification);
+            const userId = savedNotification.userId;
+            // sendRealTimeNotification(userId, notification);
+
             channel.ack(msg);
           } catch (error) {
             console.error("Error saving notification:", error);

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { ENV_CONFIG } from "../config/env.config";
 import { IUser } from "../types/user_data_type";
+import { Schema } from "mongoose";
 
 declare module "jsonwebtoken" {
   interface userDataPayload extends jwt.JwtPayload {

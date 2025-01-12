@@ -12,7 +12,5 @@ export async function publishNotification(notification: any) {
     persistent: true,
   });
 
-  console.log("Notification published to queue:", notification);
-
   setTimeout(() => connection.close(), 500);
 }

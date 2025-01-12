@@ -1,4 +1,4 @@
-import { Schema, Types, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { ICampaign } from "../types/campaign_data_type";
 
 const campaignSchema = new Schema<ICampaign>(
