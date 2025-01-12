@@ -1,10 +1,12 @@
 import amqp from "amqplib";
 import { ENV_CONFIG } from "../config/env.config";
 import { CampaignService } from "../service/campaign.service";
+import { sendEmail } from "../helper/email.helper";
+import { ICampaign } from "../types/campaign_data_type";
 
 const QUEUE_NAME = ENV_CONFIG.RABBIT_MQ.CAMPAIGN_QUEUE_NAME;
 
-export async function emailConsumer() {
+export async function campaignConsumer() {
   try {
     const connection = await amqp.connect(ENV_CONFIG.RABBIT_MQ.LOCAL_URL);
     const channel = await connection.createChannel();
@@ -34,6 +36,9 @@ export async function emailConsumer() {
   }
 }
 
-async function processCampaign(campaign: any) {
+async function processCampaign(campaign: ICampaign) {
+  if (campaign.type == "email") {
+    await sendEmail(campaign);
+  }
   await CampaignService.updateCampaignStatus(campaign._id, "sent");
 }

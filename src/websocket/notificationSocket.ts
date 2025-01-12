@@ -34,7 +34,6 @@ export function initializeSocket(server: any) {
 }
 
 export function sendRealTimeNotification(userId: string, notification: any) {
-  console.log(userId);
   io.to(userId).emit("notification", notification);
 }
 

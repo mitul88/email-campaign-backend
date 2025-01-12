@@ -2,7 +2,7 @@ import express, { Application } from "express";
 import routes from "./routes/routes";
 import middleware from "./middleware";
 import { SchedulerService } from "./service/scheduler.service";
-import { emailConsumer } from "./consumer/emailConsumer";
+import { campaignConsumer } from "./consumer/campaignConsumer";
 import { notificationConsumer } from "./consumer/notificationConsumer";
 
 export const app: Application = express();
@@ -17,7 +17,7 @@ routes(app);
 SchedulerService.initializeScheduler();
 
 // start consuming email task
-emailConsumer();
+campaignConsumer();
 
 // start consuming notification tasks
 notificationConsumer();

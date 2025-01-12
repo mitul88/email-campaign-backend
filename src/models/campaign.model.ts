@@ -4,6 +4,7 @@ import { ICampaign } from "../types/campaign_data_type";
 const campaignSchema = new Schema<ICampaign>(
   {
     name: { type: String, required: true },
+    subject: { type: String, required: true },
     message: { type: String, required: true },
     recipients: { type: [String], required: true },
     type: { type: String, required: true },
@@ -13,7 +14,7 @@ const campaignSchema = new Schema<ICampaign>(
       default: "pending",
     },
     scheduleTime: Date,
-    userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    userId: { type: String, required: true, ref: "User" },
   },
   { timestamps: true }
 );

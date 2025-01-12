@@ -20,4 +20,7 @@ export const ENV_CONFIG: IEnvConfig = {
   JWT: {
     SECRET_KEY: process.env.JWT_SECRET as string,
   },
+  MAILERSEND: {
+    API_KEY: process.env.MAILERSEND_API_KEY as string,
+  },
 };

@@ -14,4 +14,7 @@ export interface IEnvConfig {
   JWT: {
     SECRET_KEY: string;
   };
+  MAILERSEND: {
+    API_KEY: string;
+  };
 }
