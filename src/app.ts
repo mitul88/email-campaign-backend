@@ -14,10 +14,10 @@ middleware(app);
 routes(app);
 
 // initialize cron jobs
-// SchedulerService.initializeScheduler();
+SchedulerService.initializeScheduler();
 
 // start consuming email task
-// campaignConsumer();
+campaignConsumer();
 
 // start consuming notification tasks
-// notificationConsumer();
+notificationConsumer();
