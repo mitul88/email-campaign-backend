@@ -4,12 +4,20 @@ import { User } from "../models/user.model";
 import { hashPassword, validatePassword } from "../helper/password.helper";
 import { generateJWT } from "../helper/jwt.helper";
 import { ROLE_CONFIG } from "../config/role.config";
+import { validateLogin } from "../helper/validateInput.helper";
+import _ from "lodash";
 
 export const login = async (
   req: Request<{}, {}, authRequestDto>,
   res: Response<authResponseDto>
 ) => {
   const { email, password } = req.body;
+  const { error } = validateLogin(_.pick(req.body, ["email", "password"]));
+  if (error) {
+    res.status(400).send({ message: error.details[0].message });
+    res.end();
+    return;
+  }
   try {
     const user = await User.findOne({ email });
     if (!user) {

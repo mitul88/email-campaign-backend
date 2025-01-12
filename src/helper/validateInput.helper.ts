@@ -41,8 +41,8 @@ export const validateCampaignDataInput = (campaign: CampaignInputData) => {
     subject: Joi.string().min(3).max(200).required(),
     message: Joi.string().min(5).max(500).required(),
     recipients: Joi.array().items(Joi.string().required()).max(20),
-    type: Joi.string().min(3).max(255),
-    scheduleTime: Joi.date(),
+    type: Joi.string().min(3).max(255).required(),
+    scheduleTime: Joi.date().required(),
   });
 
   return schema.validate(campaign);

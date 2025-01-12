@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { campaignResponseDto, createCampaignDto } from "../dto/campaign.dto";
 import { CampaignService } from "../service/campaign.service";
 import { ICampaign } from "../types/campaign_data_type";
-import { Schema } from "mongoose";
+import _ from "lodash";
+import { validateCampaignDataInput } from "../helper/validateInput.helper";
 
 export const createCampaign = async (
   req: Request<{}, {}, createCampaignDto>,
@@ -10,6 +11,22 @@ export const createCampaign = async (
 ) => {
   const userId: string = req.user!._id;
   const campaignData = req.body;
+  const { error } = validateCampaignDataInput(
+    _.pick(campaignData, [
+      "name",
+      "subject",
+      "recipients",
+      "message",
+      "type",
+      "scheduleTime",
+    ])
+  );
+  if (error) {
+    res.status(400).send({ message: error.details[0].message });
+    res.end();
+    return;
+  }
+
   try {
     const campaign = await CampaignService.createCampaign(
       campaignData as ICampaign,
