@@ -55,6 +55,8 @@ export const login = async (
     );
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
+      sameSite: "strict",
+      secure: true,
     });
     res.status(200).send({ message: "login successful", token });
     res.end();
