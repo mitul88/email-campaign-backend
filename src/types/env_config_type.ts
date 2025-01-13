@@ -13,6 +13,8 @@ export interface IEnvConfig {
   };
   JWT: {
     SECRET_KEY: string;
+    EXPIRATION: string;
+    REFRESH_TOKEN_EXPIRATION: string;
   };
   MAILERSEND: {
     API_KEY: string;

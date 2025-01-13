@@ -12,7 +12,7 @@ declare module "jsonwebtoken" {
   }
 }
 
-export const generateJWT = function (userData: IUser) {
+export const generateJWT = function (userData: any, expiry: any) {
   const token = jwt.sign(
     {
       _id: userData["id"],
@@ -21,7 +21,7 @@ export const generateJWT = function (userData: IUser) {
       role: userData["role"],
     },
     ENV_CONFIG.JWT.SECRET_KEY,
-    { expiresIn: "7d" }
+    { expiresIn: expiry }
   );
 
   return token;

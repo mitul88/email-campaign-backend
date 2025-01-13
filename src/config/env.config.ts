@@ -19,6 +19,9 @@ export const ENV_CONFIG: IEnvConfig = {
   },
   JWT: {
     SECRET_KEY: process.env.JWT_SECRET as string,
+    EXPIRATION: process.env.JWT_EXPIRATION as string,
+    REFRESH_TOKEN_EXPIRATION: process.env
+      .JWT_REFRESH_TOKEN_EXPIRATION as string,
   },
   MAILERSEND: {
     API_KEY: process.env.MAILERSEND_API_KEY as string,

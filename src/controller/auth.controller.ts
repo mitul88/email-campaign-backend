@@ -6,6 +6,7 @@ import { generateJWT } from "../helper/jwt.helper";
 import { ROLE_CONFIG } from "../config/role.config";
 import { validateLogin } from "../helper/validateInput.helper";
 import _ from "lodash";
+import { ENV_CONFIG } from "../config/env.config";
 
 export const login = async (
   req: Request<{}, {}, authRequestDto>,
@@ -38,7 +39,14 @@ export const login = async (
       return;
     }
     // send token if password match successful
-    const token = generateJWT(user);
+    const token = generateJWT(
+      _.pick(user, ["_id", "email", "name", "role"]),
+      ENV_CONFIG.JWT.EXPIRATION
+    );
+    const refreshToken = generateJWT(
+      _.pick(user, ["_id", "name", "role"]),
+      ENV_CONFIG.JWT.REFRESH_TOKEN_EXPIRATION
+    );
     res.status(200).send({ message: "login successful", token });
     res.end();
     return;
