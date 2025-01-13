@@ -44,7 +44,7 @@ export const login = async (
       ENV_CONFIG.JWT.EXPIRATION
     );
     const refreshToken = generateJWT(
-      _.pick(user, ["_id", "name", "role"]),
+      _.pick(user, ["_id", "email", "name", "role"]),
       ENV_CONFIG.JWT.REFRESH_TOKEN_EXPIRATION
     );
     res.cookie("refreshToken", refreshToken, {
@@ -94,7 +94,7 @@ export const refreshTokenHandler = (req: Request, res: Response): void => {
 
   try {
     const payload = jwtVerify(refreshToken);
-    const token = generateJWT(payload._id, ENV_CONFIG.JWT.EXPIRATION);
+    const token = generateJWT(payload, ENV_CONFIG.JWT.EXPIRATION);
     res.status(200).send({ message: "new access token fetched", token });
     res.end();
     return;
