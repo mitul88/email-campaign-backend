@@ -7,6 +7,7 @@ import { ROLE_CONFIG } from "../config/role.config";
 import { validateLogin } from "../helper/validateInput.helper";
 import _ from "lodash";
 import { ENV_CONFIG } from "../config/env.config";
+import { JwtPayload } from "jsonwebtoken";
 
 export const login = async (
   req: Request<{}, {}, authRequestDto>,
@@ -93,7 +94,7 @@ export const refreshTokenHandler = (req: Request, res: Response): void => {
   }
 
   try {
-    const payload = jwtVerify(refreshToken);
+    const payload = jwtVerify(refreshToken) as JwtPayload;
     const token = generateJWT(payload, ENV_CONFIG.JWT.EXPIRATION);
     res.status(200).send({ message: "new access token fetched", token });
     res.end();

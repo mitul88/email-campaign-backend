@@ -1,16 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { jwtVerify } from "../helper/jwt.helper";
 import { ROLE_CONFIG } from "../config/role.config";
+import { JwtPayload } from "jsonwebtoken";
 
 declare global {
   namespace Express {
     export interface Request {
-      user?: {
-        _id: string;
-        name: string;
-        email: string;
-        role: string;
-      };
+      user?: JwtPayload;
     }
   }
 }
@@ -28,7 +24,7 @@ export const authCheck = async (
   }
 
   token = token.split(" ")[1].trim();
-  const decodedToken = jwtVerify(token);
+  const decodedToken = jwtVerify(token) as JwtPayload;
   if (!decodedToken) return res.status(401).send({ message: "invalid token" });
 
   req.user = decodedToken;
