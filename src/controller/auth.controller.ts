@@ -48,6 +48,7 @@ export const login = async (
       {
         ..._.pick(user, ["_id", "role"]),
         tokenId: ENV_CONFIG.JWT.REFRESH_TOKEN_ID,
+        iat: Date.now(),
         exp: ENV_CONFIG.JWT.REFRESH_TOKEN_EXPIRATION,
       },
       ENV_CONFIG.JWT.REFRESH_TOKEN_EXPIRATION
@@ -101,6 +102,7 @@ export const refreshTokenHandler = (req: Request, res: Response): void => {
     const payload = jwtVerify({
       ...refreshToken,
       tokenId: ENV_CONFIG.JWT.REFRESH_TOKEN_ID,
+      iat: Date.now(),
       exp: ENV_CONFIG.JWT.REFRESH_TOKEN_EXPIRATION,
     }) as JwtPayload;
     const token = generateJWT(payload, ENV_CONFIG.JWT.EXPIRATION);
