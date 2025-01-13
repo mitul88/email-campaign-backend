@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { authRequestDto, authResponseDto } from "../dto/auth.dto";
 import { User } from "../models/user.model";
 import { hashPassword, validatePassword } from "../helper/password.helper";
-import { generateJWT } from "../helper/jwt.helper";
+import { generateJWT, jwtVerify } from "../helper/jwt.helper";
 import { ROLE_CONFIG } from "../config/role.config";
 import { validateLogin } from "../helper/validateInput.helper";
 import _ from "lodash";
@@ -47,6 +47,9 @@ export const login = async (
       _.pick(user, ["_id", "name", "role"]),
       ENV_CONFIG.JWT.REFRESH_TOKEN_EXPIRATION
     );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+    });
     res.status(200).send({ message: "login successful", token });
     res.end();
     return;
@@ -79,4 +82,25 @@ export const register = async (
   res.status(201).send({ message: "user registry successfull" });
   res.end();
   return;
+};
+
+export const refreshTokenHandler = (req: Request, res: Response): void => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    res.status(401).send({ message: "refresh token missing" });
+    res.end();
+    return;
+  }
+
+  try {
+    const payload = jwtVerify(refreshToken);
+    const token = generateJWT(payload._id, ENV_CONFIG.JWT.EXPIRATION);
+    res.status(200).send({ message: "new access token fetched", token });
+    res.end();
+    return;
+  } catch (error) {
+    res.status(403).send({ message: "invalid refresh token" });
+    res.end();
+    return;
+  }
 };
