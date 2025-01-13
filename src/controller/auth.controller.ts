@@ -94,7 +94,9 @@ export const register = async (
 
 export const refreshTokenHandler = (req: Request, res: Response): void => {
   const refreshToken = req.cookies.refreshToken;
+  console.log(refreshToken);
   if (!refreshToken) {
+    console.log("sds");
     res.status(401).send({ message: "refresh token missing" });
     res.end();
     return;

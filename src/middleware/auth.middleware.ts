@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { jwtVerify } from "../helper/jwt.helper";
 import { ROLE_CONFIG } from "../config/role.config";
-import { JwtPayload } from "jsonwebtoken";
+import { decode, JwtPayload } from "jsonwebtoken";
+import _ from "lodash";
 
 declare global {
   namespace Express {
@@ -26,8 +27,16 @@ export const authCheck = async (
   token = token.split(" ")[1].trim();
   const decodedToken = jwtVerify(token) as JwtPayload;
   if (!decodedToken) return res.status(401).send({ message: "invalid token" });
-
-  req.user = decodedToken;
+  if (decodedToken.exp) {
+    if (decodedToken.exp < Math.floor(Date.now() / 1000)) {
+      res.status(401).send({
+        message: "token expired",
+      });
+      res.end();
+      return;
+    }
+  }
+  req.user = _.pick(decodedToken, ["_id", "role"]);
   next();
 };
 
