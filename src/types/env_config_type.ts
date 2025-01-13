@@ -15,6 +15,7 @@ export interface IEnvConfig {
     SECRET_KEY: string;
     EXPIRATION: string;
     REFRESH_TOKEN_EXPIRATION: string;
+    REFRESH_TOKEN_ID: string;
   };
   MAILERSEND: {
     API_KEY: string;
