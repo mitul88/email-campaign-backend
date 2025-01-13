@@ -101,13 +101,16 @@ export const refreshTokenHandler = (req: Request, res: Response): void => {
   }
 
   try {
-    const payload = jwtVerify({
-      ...refreshToken,
-      tokenId: ENV_CONFIG.JWT.REFRESH_TOKEN_ID,
-      iat: Date.now(),
-      exp: ENV_CONFIG.JWT.REFRESH_TOKEN_EXPIRATION,
-    }) as JwtPayload;
-    const token = generateJWT(payload, ENV_CONFIG.JWT.EXPIRATION);
+    const payload = jwtVerify(refreshToken) as JwtPayload;
+    const token = generateJWT(
+      {
+        ...payload,
+        tokenId: ENV_CONFIG.JWT.REFRESH_TOKEN_ID,
+        iat: Date.now(),
+        exp: ENV_CONFIG.JWT.EXPIRATION,
+      },
+      ENV_CONFIG.JWT.EXPIRATION
+    );
     res.status(200).send({ message: "new access token fetched", token });
     res.end();
     return;

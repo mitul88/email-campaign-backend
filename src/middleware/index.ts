@@ -2,8 +2,10 @@ import cookieParser from "cookie-parser";
 import { Express, json, urlencoded } from "express";
 import express from "express";
 import helmet from "helmet";
+import cors from "cors";
 
 export = (app: Express) => {
+  app.use(cors());
   app.use(json());
   app.use(helmet());
   app.use(urlencoded());
